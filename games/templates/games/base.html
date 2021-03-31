@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" href="{% static 'games/bulma.min.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Code Marmalad</title>
+	<style>
+		#main_content {
+			padding: 1em;
+		}
+	</style>
+</head>
+
+<body>
+	<nav class="navbar is-danger">
+		<div class="navbar-end">
+			<div class="navbar-item">
+				{% if user.is_authenticated %}
+					{{ user }}
+				{% else %}
+					<div class="buttons">
+						<a class="button is-primary" href="{% url 'login' %}">
+							<strong>Register</strong>
+						</a>
+						<a class="button is-light" href="{% url 'login' %}">
+							Log in
+						</a>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</nav>
+
+	<div id="main_content">
+		{% block content %}{% endblock %}
+	</div>
+</body>
+
+</html>

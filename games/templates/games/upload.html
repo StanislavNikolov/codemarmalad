@@ -1,0 +1,56 @@
+{% extends "games/base.html" %}
+{% block content %}
+
+<form action="{% url 'upload' %}" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+
+    <div class="field">
+        <label class="label">Title</label>
+        <div class="control">
+            <input class="input"
+            type="text" required
+            maxlength="{{ form.title.field.max_length }}"
+            name="{{ form.title.html_name }}"
+            placeholder="Title of your game"\>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="field">
+        <label class="label">URL of the game</label>
+        Your game is not already on the internet? Use <a href="https://bin.gamejs.online">bit.do/jsigra</a> to upload it in no time!
+        <div class="control">
+            <input class="input"
+            type="url" required
+            maxlength="{{ form.external_url.field.max_length }}"
+            name="{{ form.external_url.html_name }}"
+            placeholder="URL where your game is currently hosted"\>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="field">
+        <label class="label">Cover image</label>
+        <div class="file">
+            <label class="file-label">
+                <input class="file-input"
+                type="file" required
+                name="{{ form.cover_image.html_name }}" \>
+                <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Choose a cover image…
+                    </span>
+                </span>
+            </label>
+        </div>
+    </div>
+
+    <input class="button is-primary" type="submit" value="Submit"\>
+</form>
+
+{% endblock %}
