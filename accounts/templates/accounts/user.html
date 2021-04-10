@@ -1,0 +1,34 @@
+{% extends "games/base.html" %}
+
+{% block content %}
+
+{% if user.first_name %}
+	<div class="title">
+		{{ user.first_name }} {{ user.last_name }}
+	</div>
+	<div class="subtitle">
+		@{{ user.username }}
+	</div>
+{% else %}
+	@{{ user.username }}
+{% endif %}
+
+<span class="icon-mail2"></span> {{ user.email }}
+
+{% if game.source_code_url %}
+	<br>
+	<span class="icon-github"></span>
+	<a href="{{ user.github_profile }}>{{ user.github_profile }}</a>
+{% endif %}
+
+<br><br>
+
+{% if user.game_set.count == 0 %}
+	This user has no games.
+{% else %}
+	{{ user.game_set.count }}
+	{% if user.game_set.count == 1 %} game {% else %} games {% endif %}made by this user:
+	{% include "games/gamegrid.html" with games=user.game_set.all only %}
+{% endif %}
+
+{% endblock %}

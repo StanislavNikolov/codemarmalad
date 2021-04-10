@@ -1,0 +1,61 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+
+{# https://codepen.io/stevehalford/pen/YeYEOR #}
+<div class="hero is-primary is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered is-vcentered">
+                <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+
+                    {% if form.errors %}
+                        <div class="notification is-danger">
+                        Your username and password didn't match. Please try again.
+                        </div>
+                    {% endif %}
+
+                    {% if next %}
+                        <div class="notification is-warning">
+                            {% if user.is_authenticated %}
+                                Your account doesn't have access to this page. To proceed, please login with an account that has access.
+                            {% else %}
+                                Please login first.
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <form class="box" method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label class="label">Username</label>
+                            <div class="control">
+                                <input class="input"
+                                type="text" required
+                                maxlength="{{ form.title.field.max_length }}"
+                                name="{{ form.username.html_name }}"
+                                placeholder="username" \>
+                            </div>
+                        </div>
+                
+                        <div class="field">
+                            <label class="label">Password</label>
+                            <div class="control">
+                                <input class="input"
+                                type="password"
+                                name="{{ form.password.html_name }}"
+                                placeholder="********" \>
+                            </div>
+                        </div>
+                        <input class="button is-primary" type="submit" value="Login">
+                        <input type="hidden" name="next" value="{{ next }}">
+                    </form>
+
+                    {# Assumes you setup the password_reset view in your URLconf #}
+                    <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

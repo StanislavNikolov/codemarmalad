@@ -1,0 +1,46 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+
+{# https://codepen.io/stevehalford/pen/YeYEOR #}
+<div class="hero is-primary is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered is-vcentered">
+                <div class="column is-6-tablet is-5-desktop is-4-widescreen">
+                    <form class="box" method="post" action="{% url 'register' %}">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="field">
+                                <label class="label">{{ field.label }}</label>
+                                <div class="control">
+                                    <input class="input"
+                                    type="{{ field.field.widget.input_type }}"
+                                    {% if field.field.required %} required {% endif %}
+                                    maxlength="{{ field.max_length }}"
+                                    name="{{ field.html_name }}"
+                                    value="{{ field.value|default_if_none:"" }}"
+                                    placeholder="{{ field.field.widget.attrs.placeholder }}" \>
+                                </div>
+                                {% if field.help_text %}
+                                    <p class="help"> {{ field.help_text }} </p>
+                                {% endif %}
+
+                                {% if field.errors %}
+                                    <p class="help is-danger">
+                                        {{ field.errors.as_text | escape }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <input class="button is-primary" type="submit" value="Register">
+                        <input type="hidden" name="next" value="{{ next }}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

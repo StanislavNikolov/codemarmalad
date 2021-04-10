@@ -1,59 +1,8 @@
 {% extends "games/base.html" %}
 {% block content %}
 
-<style>
-	#games-list {
-		display: grid;
-	}
-	@media (min-width: 40em) {
-		#games-list {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-	@media (min-width: 60em) {
-		#games-list {
-			grid-template-columns: repeat(3, 1fr);
-		}
-	}
-	@media (min-width: 80em) {
-		#games-list {
-			grid-template-columns: repeat(4, 1fr);
-		}
-	}
-	@media (min-width: 100em) {
-		#games-list {
-			grid-template-columns: repeat(5, 1fr);
-		}
-	}
-	.game-entry {
-		margin: 1em;
-		transition: margin 150ms;
-	}
-	.game-entry:hover {
-		margin: 0;
-	}
-</style>
+<a class="button is-primary is-12-phone" href="{% url 'upload' %}">Upload your game</a>
 
-<a class="button is-primary is-fullwidth" href="{% url 'upload' %}">Upload your game</a>
-
-<div id="games-list">
-	{% for game in games %}
-	<div class="card game-entry">
-		<div class="card-image">
-			<figure class="image is-square">
-				<img src="{{ game.cover_image.url }}" alt="Placeholder image">
-			</figure>
-		</div>
-		<div class="card-content">
-			<div class="media">
-				<div class="media-content">
-					<p class="title is-4">{{ game.title }}</p>
-					<p class="subtitle is-6">@{{ game.author.username }}</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	{% endfor %}
-</div>
+{% include "games/gamegrid.html" with games=games only %}
 
 {% endblock %}
