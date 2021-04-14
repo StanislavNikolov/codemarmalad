@@ -46,6 +46,11 @@ def game(request, pk, slug=None): # slug is ignored
 @login_required
 def vote(request, pk, vtype):
     game = get_object_or_404(Game, pk=pk)
+
+    # Delete previous votes for this game
+    Vote.objects.filter(author=request.user, game=game).delete()
+
+    # Important: requesting to vote for a valid game with invalid vtype is fine - it means "discoard my vote"
     try:
         score = Vote.VTYPE_TO_SCORE[vtype]
     except:
@@ -53,5 +58,4 @@ def vote(request, pk, vtype):
 
     vote = Vote.objects.create(author=request.user, game=game, score=score)
     vote.save()
-
     return HttpResponse(score)

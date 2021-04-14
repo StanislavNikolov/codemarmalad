@@ -6,6 +6,7 @@
 	display: flex;
 	flex-direction: column;
 }
+/*
 @media (min-width: 1200px) {
 	#layout-container {
 		flex-direction: row;
@@ -14,53 +15,68 @@
 #game-meta {
 	min-width: 30em;
 }
+*/
 #iframe {
-	flex-grow: 2;
 	width: 100%;
-	height: 300px;
+	height: 100%;
+}
+#game-iframe-wrapper {
+	padding: 0;
+	width: 100%;
+	height: calc(100vh - 300px);
 }
 </style>
 
-<div id="layout-container">
-	<iframe id="iframe" src="{{ game.external_url }}"></iframe>
-	<div id="game-meta" class="box">
-		<div class="title is-4">{{ game.title }}</div>
-		<div class="subtitle is-6">
-			Made by
-			<a href="{% url 'user' game.author.username %}">
-				{% if game.author.first_name %}
-				{{ game.author.first_name }} {{ game.author.last_name }}
-				{% else %}
-					@{{ game.author.username }}
-				{% endif %}
-			</a>
-
-			<br>
-
-			Uploaded on {{ game.upload_date }}
-
-			{% if game.source_code_url %}
-				<br>
-				<span class="icon-github"></span>
-				<a href="{{ game.source_code_url }}>{{ game.source_code_url }}</a>
+<div id="game-meta" class="box">
+	<div class="title is-4">{{ game.title }}</div>
+	<div class="subtitle is-6">
+		Made by
+		<a href="{% url 'user' game.author.username %}">
+			{% if game.author.first_name %}
+			{{ game.author.first_name }} {{ game.author.last_name }}
+			{% else %}
+				@{{ game.author.username }}
 			{% endif %}
-		</div>
+		</a>
 
-		Review:
-		<span onclick="vote(voteUp)" class="icon-thumbs-up"></span>
-		<span onclick="vote(voteDown)" class="icon-thumbs-down"></span>
 		<br>
 
-		Description:
+		Uploaded on {{ game.upload_date }}
+
+		{% if game.source_code_url %}
+			<br>
+			<span class="icon"><i class="icon-github"></i></span>
+			<a href="{{ game.source_code_url }}">{{ game.source_code_url }}</a>
+		{% endif %}
 	</div>
+
+	<p>
+	If the game doesn't work correctly, please <a href="{{ game.external_url }}">open it in another tab</a>.
+	</p>
+
+
+	{% comment %}
+	<span class="icon"><i onclick="vote('up')" class="icon-thumbs-up"></i></span>
+	<span class="icon"><i onclick="vote('down')" class="icon-thumbs-down"></i></span>
+	{% endcomment %}
 </div>
 
+<div id="game-iframe-wrapper" class="box">
+	<iframe id="iframe" src="{{ game.external_url }}"></iframe>
+</div>
+
+{% comment %}
 <script>
-	const voteUp = "{% url 'vote' game.pk 'up' %}";
-	const voteDown = "{% url 'vote' game.pk 'down' %}";
-	const vote = url => {
+	const vote = type => {
+		const urls = {
+			'up': "{% url 'vote' game.pk 'up' %}",
+			'down': "{% url 'vote' game.pk 'down' %}",
+		};
+
+		const url = urls[type];
 		fetch(url);
 	};
 </script>
+{% endcomment %}
 
 {% endblock %}

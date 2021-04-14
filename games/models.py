@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import User
 
 
 class Game(models.Model):
@@ -8,6 +8,12 @@ class Game(models.Model):
     cover_image = models.ImageField(upload_to="cover_images/")
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     upload_date = models.DateTimeField()
+
+    def count_upvotes(self):
+        return self.vote_set.filter(score=Vote.VTYPE_TO_SCORE['up']).count()
+
+    def count_downvotes(self):
+        return self.vote_set.filter(score=Vote.VTYPE_TO_SCORE['down']).count()
 
     def __str__(self):
         return f'game: {self.title}'

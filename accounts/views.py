@@ -1,8 +1,10 @@
 from django.core.exceptions import ValidationError
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django import forms
+from django.db import IntegrityError
+
+from accounts.models import User
 
 
 class RegisterForm(forms.Form):
@@ -44,17 +46,30 @@ class RegisterForm(forms.Form):
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-        print(form.errors.as_data())
-        print(form.errors)
         if form.is_valid():
-            user = User.objects.create_user(
-                username=form.cleaned_data.get('username'),
-                email=form.cleaned_data.get('email'),
-                password=form.cleaned_data.get('password1')
-            )
-            user.save()
-            login(request, user)
-            return redirect('home')
+            try:
+                user = User.objects.create_user(
+                    username=form.cleaned_data.get('username'),
+                    email=form.cleaned_data.get('email'),
+                    password=form.cleaned_data.get('password1')
+                )
+            except IntegrityError as err:
+                known_errors = {
+                    'UNIQUE constraint failed: accounts_user.username': ('username', 'Username already exists!'),
+                    'UNIQUE constraint failed: accounts_user.email': ('email', 'Email already exists!'),
+                }
+                internal_err = str(err)
+
+                if internal_err not in known_errors:
+                    print(internal_err)
+                    form.add_error(None, 'Unknown error')
+                else:
+                    form.add_error(*known_errors[internal_err])
+
+            if form.is_valid():
+                user.save()
+                login(request, user)
+                return redirect('home')
     else:
         form = RegisterForm()
 

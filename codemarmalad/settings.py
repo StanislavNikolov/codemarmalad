@@ -29,7 +29,6 @@ ALLOWED_HOSTS = ['192.168.8.100', 'localhost']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -128,3 +127,4 @@ MEDIA_ROOT = 'user_upload/'
 MEDIA_URL = '/user_upload/'
 
 LOGIN_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'accounts.User'

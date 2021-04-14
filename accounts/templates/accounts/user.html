@@ -13,12 +13,15 @@
 	@{{ user.username }}
 {% endif %}
 
-<span class="icon-mail2"></span> {{ user.email }}
+<p>
+	<span class="icon-mail2"></span> {{ user.email }}
+</p>
 
 {% if game.source_code_url %}
-	<br>
-	<span class="icon-github"></span>
-	<a href="{{ user.github_profile }}>{{ user.github_profile }}</a>
+	<p>
+		<span class="icon-github"></span>
+		<a href="{{ user.github_profile }}">{{ user.github_profile }}</a>
+	</p>
 {% endif %}
 
 <br><br>
@@ -28,7 +31,7 @@
 {% else %}
 	{{ user.game_set.count }}
 	{% if user.game_set.count == 1 %} game {% else %} games {% endif %}made by this user:
-	{% include "games/gamegrid.html" with games=user.game_set.all only %}
+	{% include "games/gamegrid.html" with games=user.game_set.all %}
 {% endif %}
 
 {% endblock %}

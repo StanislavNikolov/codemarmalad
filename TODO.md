@@ -8,8 +8,8 @@
 
 * Profile page
   * [x] Basic info
-  * [ ] Show email and github
   * [x] Show games made by this user
+  * [ ] Show github
 
 * Site branding
   * [ ] Logo in header
@@ -21,8 +21,8 @@
 
 * Upload game
   * [x] Initial page
-  * [ ] Simplify with loop (as in register page)
-  * [ ] ? Easy way to just paste game.js -> contact bin.gamejs.online
+  * [ ] Easy way to just paste game.js -> contact bin.gamejs.online
+  * [ ] Simplify template with loop (as in register page)
   * [ ] Upload game to particular jam
   * [ ] Thumbnail with editor
   * [ ] Edit already uploaded game
@@ -38,7 +38,7 @@
   * [ ] comments
   * [ ] votes
 * [ ] Calculate weight based on # of votes and recency
-* [ ] Crush incoming images to be below some limit (50kb?) - MAYBE do it on the client with JS?
+* [x] Crush incoming images to be below some limit (50kb?) - MAYBE do it on the client with JS?
 * [ ] Different jams
 
 # Meta:

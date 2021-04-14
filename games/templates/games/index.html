@@ -1,8 +1,12 @@
 {% extends "games/base.html" %}
 {% block content %}
 
-<a class="button is-primary is-12-phone" href="{% url 'upload' %}">Upload your game</a>
+<div class="columns is-mobile is-centered">
+    <div class="column is-narrow">
+        <a class="button is-primary is-narrow" href="{% url 'upload' %}">Upload your game</a>
+    </div>
+</div>
 
-{% include "games/gamegrid.html" with games=games only %}
+{% include "games/gamegrid.html" with games=games %}
 
 {% endblock %}

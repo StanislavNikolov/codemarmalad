@@ -51,6 +51,21 @@
 				</div>
 			</div>
 		</div>
+		<!--
+		<footer class="card-footer">
+			<div class="card-footer-item">
+				<span class="icon"><i onclick="vote('up')" class="icon-thumbs-up"></i></span>
+				{{ game.count_upvotes }}
+			</div>
+			<div class="card-footer-item">
+				<span class="icon"><i onclick="vote('down')" class="icon-thumbs-down"></i></span>
+				{{ game.count_downvotes }}
+			</div>
+			{% if user == game.author %}
+				<a href="#" class="card-footer-item">Edit</a>
+			{% endif %}
+		</footer>
+		-->
 	</div>
 	{% endfor %}
 </div>
